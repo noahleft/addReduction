@@ -16,7 +16,6 @@ genData( int* &data ){
     data = new int[ DATA_SIZE ];
     for( int i = 0; i != DATA_SIZE; ++i ){
         data[i] = -RAND_RANGE + static_cast<int>( rand() % (2 * RAND_RANGE - 1) );
-        data[i] = 1;
     }
 }
 

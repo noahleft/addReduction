@@ -1,0 +1,10 @@
+
+*.pbxproj
+
+reduction.xcodeproj/project.pbxproj
+
+reduction.xcodeproj/xcuserdata/noahleft.xcuserdatad/xcschemes/reduction.xcscheme
+
+*.bin
+
+reduction.xcodeproj/xcuserdata/noahleft.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist

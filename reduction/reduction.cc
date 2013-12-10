@@ -75,17 +75,17 @@ OclAddReduce::run(){
     result=0;
     IsCPU=false;
     
-//    if (INPUT_SIZE<100000000) {
-//        IsCPU=true;
-//        if (INPUT_SIZE<1000) {
-//            for (unsigned i=0; i<INPUT_SIZE; i++) {
-//                result+=mHostData[i];
-//            }
-//            return;
-//        }
-//        result=CPUComputed(mHostData);
-//        return;
-//    }
+    if (INPUT_SIZE<100000000) {
+        IsCPU=true;
+        if (INPUT_SIZE<1000) {
+            for (unsigned i=0; i<INPUT_SIZE; i++) {
+                result+=mHostData[i];
+            }
+            return;
+        }
+        result=CPUComputed(mHostData);
+        return;
+    }
     
     
     /*Step 1: dectect & initialize platform*/
@@ -97,7 +97,7 @@ OclAddReduce::run(){
     /*TA's Information Show Function*/
     showInfo();
     
-    GROUP_SIZE=8;
+    GROUP_SIZE=64;
     /*Step 3: create a context*/
     initContext();
 
@@ -236,9 +236,11 @@ OclAddReduce::runKernel(){
         std::swap(dev_B,dev_C);
         size_t offset=work_size%local_size;
         work_size+=local_size-offset;
+        
         clSetKernelArg(mKernel, 0, sizeof(cl_mem), &dev_C);
         clSetKernelArg(mKernel, 1, sizeof(cl_mem), &dev_B);
         clSetKernelArg(mKernel, 2, GROUP_SIZE*sizeof(int), NULL);
+        
         clEnqueueNDRangeKernel(mCommandQ, mKernel, 1, 0, &work_size, &local_size, 0, 0, 0);
         work_size=work_size/local_size;
     }
